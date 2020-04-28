@@ -221,7 +221,7 @@ public class PCStockView extends JFrame {
 
     private JMenuItem initJMenuItem(String text, String toolTip, char mnemonic, int shortcut) {
         JMenuItem menuItem = new JMenuItem();
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(shortcut, InputEvent.ALT_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(shortcut, InputEvent.ALT_DOWN_MASK));
         menuItem.setMnemonic(mnemonic);
         menuItem.setText(text);
         menuItem.setToolTipText(toolTip);
