@@ -43,7 +43,6 @@ public final class PCStockLanguage {
         } catch (Exception e) {
             bundle = ResourceBundle.getBundle(BUNDLE_RESOURCE, Locale.ENGLISH);
         }
-
     }
 
     public static String getMessageByLocale(String property) {

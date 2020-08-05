@@ -49,7 +49,7 @@ public final class RenameUtil {
                 episodeNumber = completeEpisode(episodeNumber, files.size());
                 File f1 = new File(dir + File.separator + currentName);
                 String ren = getRenameValue(tempEN, episodeNumber, fileExt, newName);
-                Boolean r = f1.renameTo(new File(ren));
+                boolean r = f1.renameTo(new File(ren));
                 if (!r) {
                     failedCount++;
                 }
