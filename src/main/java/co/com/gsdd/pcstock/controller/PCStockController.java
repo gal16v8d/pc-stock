@@ -30,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PCStockController {
 
+    private static final String ADDING_LOG = "Adding --> {}";
     private PCStockView view;
     private Directory directories;
     private String[] arrayFilter;
@@ -200,6 +201,8 @@ public class PCStockController {
         case TableModelConstants.DETAILED_SEE:
             setUpTablePerModel(new SeeDetailedModel(new Object[][] {}, SeeDetailedModel.getColumns()));
             break;
+        default:
+            break;
         }
     }
 
@@ -223,7 +226,7 @@ public class PCStockController {
             model.addRow(new Object[1]);
             view.getDataTable().getModel().setValueAt(dto.getName(), pos, 0);
             view.getDataTable().getModel().setValueAt(ByteConversor.readableFileSize(dto.getSize()), pos, 1);
-            log.debug("Adding --> {}", dto);
+            log.debug(ADDING_LOG, dto);
             pos++;
         }
     }
@@ -238,7 +241,7 @@ public class PCStockController {
             model.addRow(new Object[1]);
             view.getDataTable().getModel().setValueAt(dto.getName(), pos, 0);
             view.getDataTable().getModel().setValueAt(dto.getQuantity(), pos, 1);
-            log.debug("Adding --> {}", dto);
+            log.debug(ADDING_LOG, dto);
             pos++;
         }
     }
@@ -273,7 +276,7 @@ public class PCStockController {
             view.getDataTable().getModel().setValueAt(ppal, pos, 1);
             view.getDataTable().getModel().setValueAt(snd, pos, 2);
             view.getDataTable().getModel().setValueAt(dto.getDifferent(), pos, 3);
-            log.debug("Adding --> {}", dto);
+            log.debug(ADDING_LOG, dto);
             pos++;
         }
     }
@@ -291,7 +294,7 @@ public class PCStockController {
             view.getDataTable().getModel().setValueAt(dto.getOnMain(), pos, 1);
             view.getDataTable().getModel().setValueAt(dto.getOnSecondary(), pos, 2);
             view.getDataTable().getModel().setValueAt(dto.getDifferent(), pos, 3);
-            log.debug("Adding --> {}", dto);
+            log.debug(ADDING_LOG, dto);
             pos++;
         }
     }

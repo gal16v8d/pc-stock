@@ -24,6 +24,7 @@ import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.WindowConstants;
 
 import co.com.gsdd.pcstock.controller.PCStockController;
 import co.com.gsdd.pcstock.ui.model.CompareModel;
@@ -104,12 +105,12 @@ public class PCStockView extends JFrame {
         getContentPane().setLayout(null);
 
         mainDirectoryButton.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.MAIN_DIR_BTN_TXT));
-        mainDirectoryButton.addActionListener(evt -> botonPrincipalActionPerformed(evt));
+        mainDirectoryButton.addActionListener(this::botonPrincipalActionPerformed);
         getContentPane().add(mainDirectoryButton);
         mainDirectoryButton.setBounds(200, 90, 160, 23);
 
         secondaryDirectoryButton.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.SEC_DIR_BTN_TXT));
-        secondaryDirectoryButton.addActionListener(evt -> botonSecundarioActionPerformed(evt));
+        secondaryDirectoryButton.addActionListener(this::botonSecundarioActionPerformed);
         getContentPane().add(secondaryDirectoryButton);
         secondaryDirectoryButton.setBounds(200, 120, 160, 23);
 
@@ -124,7 +125,7 @@ public class PCStockView extends JFrame {
         secondaryDirectoryLabel.setBounds(380, 160, 250, 20);
 
         compareButton.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.COMPARE_BTN_TXT));
-        compareButton.addActionListener(evt -> botonCompararActionPerformed(evt));
+        compareButton.addActionListener(this::botonCompararActionPerformed);
         getContentPane().add(compareButton);
         compareButton.setBounds(20, 180, 160, 23);
 
@@ -141,21 +142,21 @@ public class PCStockView extends JFrame {
         compareCheck.setFont(arialBlack10);
         compareCheck.setForeground(redRGB);
         compareCheck.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.COMPARE_BTN_TXT));
-        compareCheck.addActionListener(evt -> prepareCompareView(evt));
+        compareCheck.addActionListener(this::prepareCompareView);
         getContentPane().add(compareCheck);
         compareCheck.setBounds(20, 40, 140, 23);
 
         renameCheck.setFont(arialBlack10);
         renameCheck.setForeground(new Color(255, 0, 51));
         renameCheck.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_BTN_TXT));
-        renameCheck.addActionListener(evt -> prepareRenameView(evt));
+        renameCheck.addActionListener(this::prepareRenameView);
         getContentPane().add(renameCheck);
         renameCheck.setBounds(20, 70, 140, 23);
 
         seeCheck.setFont(arialBlack10);
         seeCheck.setForeground(redRGB);
         seeCheck.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.SEE_BTN_TXT));
-        seeCheck.addActionListener(evt -> prepareSeeView(evt));
+        seeCheck.addActionListener(this::prepareSeeView);
         getContentPane().add(seeCheck);
         seeCheck.setBounds(20, 10, 140, 23);
 
@@ -166,12 +167,12 @@ public class PCStockView extends JFrame {
         detailCheck.setBounds(20, 150, 140, 23);
 
         seeButton.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.SEE_BTN_TXT));
-        seeButton.addActionListener(evt -> botonVerActionPerformed(evt));
+        seeButton.addActionListener(this::botonVerActionPerformed);
         getContentPane().add(seeButton);
         seeButton.setBounds(20, 180, 160, 23);
 
         renameButton.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_BTN_TXT));
-        renameButton.addActionListener(evt -> botonRenombrarActionPerformed(evt));
+        renameButton.addActionListener(this::botonRenombrarActionPerformed);
         getContentPane().add(renameButton);
         renameButton.setBounds(20, 180, 160, 20);
 
@@ -200,19 +201,19 @@ public class PCStockView extends JFrame {
 
         JMenuItem compareMenu = initJMenuItem(PCStockLanguage.getMessageByLocale(PCStockLanguage.COMPARE_MENU_TXT),
                 PCStockLanguage.getMessageByLocale(PCStockLanguage.COMPARE_MENU_TOOLTIP), '1', KeyEvent.VK_NUMPAD1);
-        compareMenu.addActionListener(evt -> prepareCompareView(evt));
+        compareMenu.addActionListener(this::prepareCompareView);
         optionsMenu.add(compareMenu);
         optionsMenu.add(new JSeparator());
 
         JMenuItem seeMenu = initJMenuItem(PCStockLanguage.getMessageByLocale(PCStockLanguage.SEE_MENU_TXT),
                 PCStockLanguage.getMessageByLocale(PCStockLanguage.SEE_MENU_TOOLTIP), '2', KeyEvent.VK_NUMPAD2);
-        seeMenu.addActionListener(evt -> prepareSeeView(evt));
+        seeMenu.addActionListener(this::prepareSeeView);
         optionsMenu.add(seeMenu);
         optionsMenu.add(new JSeparator());
 
         JMenuItem renameMenu = initJMenuItem(PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_MENU_TXT),
                 PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_MENU_TOOLTIP), '3', KeyEvent.VK_NUMPAD3);
-        renameMenu.addActionListener(evt -> prepareRenameView(evt));
+        renameMenu.addActionListener(this::prepareRenameView);
         optionsMenu.add(renameMenu);
 
         menuBar.add(optionsMenu);
@@ -264,7 +265,7 @@ public class PCStockView extends JFrame {
      * @param args
      *            the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         try {
             Optional<LookAndFeelInfo> lookAndFeelInfo = Stream.of(UIManager.getInstalledLookAndFeels())
                     .filter(lookAndFeel -> "Nimbus".equals(lookAndFeel.getName())).findAny();
@@ -278,7 +279,7 @@ public class PCStockView extends JFrame {
         EventQueue.invokeLater(() -> {
             PCStockView gui = new PCStockView();
             gui.setVisible(true);
-            gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            gui.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             controller = new PCStockController(gui);
             controller.initWindow();
         });

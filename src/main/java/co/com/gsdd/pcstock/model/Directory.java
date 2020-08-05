@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 public class Directory {
 
-    public File main;
-    public File secondary;
+    private File main;
+    private File secondary;
 
 }
