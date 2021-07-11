@@ -13,13 +13,13 @@ import org.junit.jupiter.params.provider.CsvSource;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class RenameUtilTest {
+class RenameUtilTest {
 
     @TempDir
     public Path path;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         try {
             initDir();
         } catch (Exception e) {
@@ -37,7 +37,7 @@ public class RenameUtilTest {
 
     @ParameterizedTest
     @CsvSource({ "txt,renamed", "mp4,renamed" })
-    public void renameAllFilesOnDirTest(String filter, String newName) {
+    void renameAllFilesOnDirTest(String filter, String newName) {
         Assertions.assertTrue(RenameUtil.renameAllFilesOnDir(path.toFile(), new String[] { filter }, newName));
     }
 
