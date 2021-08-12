@@ -9,12 +9,13 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 
 import co.com.gsdd.pcstock.constants.PCStockGralConstants;
-import co.com.gsdd.pcstock.enums.NameExclusion;
+import co.com.gsdd.pcstock.enums.NameExclusionEnum;
 import co.com.gsdd.pcstock.model.Exclusion;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -33,13 +34,13 @@ public final class RenameUtil {
      */
     public static boolean renameAllFilesOnDir(File dir, String[] filters, String newName) {
         try {
-            Integer failedCount = 0;
+            AtomicInteger failedCount = new AtomicInteger(0);
             Collection<File> files = FileUtils.listFiles(dir, filters, true);
             List<Exclusion> exclusions = getExclusion(files);
-            newName = dir + File.separator + newName.trim();
-            for (File file : files) {
-                String currentName = file.getName();
-                String tempEN = NameExclusion.findByName(currentName);
+            String newFullName = dir + File.separator + newName.trim();
+            files.parallelStream().forEach((File file) -> {
+            	String currentName = file.getName();
+                String tempEN = NameExclusionEnum.findByName(currentName);
                 String fileExt = extractFileExtension(currentName);
                 String episodeNumber = extractFileName(currentName).replaceAll(PCStockGralConstants.REGEX_NUMBER,
                         PCStockGralConstants.EMPTY);
@@ -48,15 +49,15 @@ public final class RenameUtil {
                 }
                 episodeNumber = completeEpisode(episodeNumber, files.size());
                 File f1 = new File(dir + File.separator + currentName);
-                String ren = getRenameValue(tempEN, episodeNumber, fileExt, newName);
+                String ren = getRenameValue(tempEN, episodeNumber, fileExt, newFullName);
                 boolean r = f1.renameTo(new File(ren));
                 if (!r) {
-                    failedCount++;
+                	failedCount.addAndGet(1);
                 }
-            }
-            return (failedCount == 0);
+            });
+            return (failedCount.get() == 0);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error("Error renaming files: " + e.getMessage(), e);
             return false;
         }
     }
