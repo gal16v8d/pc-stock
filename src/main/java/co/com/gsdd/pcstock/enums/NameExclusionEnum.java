@@ -10,7 +10,7 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @ToString
-public enum NameExclusion {
+public enum NameExclusionEnum {
 	CORTO(" Corto"),
 	CROSSOVER(" Crossover"),
 	ESPECIAL(" SP"),
@@ -21,9 +21,9 @@ public enum NameExclusion {
 	private final String name;
 
 	public static String findByName(String fileName) {
-		return Stream.of(NameExclusion.values())
+		return Stream.of(NameExclusionEnum.values())
 				.filter(exclusionNombre -> exclusionNombre.getName().equalsIgnoreCase(fileName)).findAny()
-				.map(NameExclusion::getName).orElse(null);
+				.map(NameExclusionEnum::getName).orElse(null);
 	}
 
 }
