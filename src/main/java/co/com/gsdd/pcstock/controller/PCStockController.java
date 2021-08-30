@@ -78,7 +78,9 @@ public class PCStockController {
         view.getSeeCheck().setSelected(false);
         view.getCompareCheck().setSelected(true);
         view.getDetailCheck().setSelected(false);
+        view.getResolution().setSelected(false);
         view.getDetailCheck().setVisible(true);
+        view.getResolution().setVisible(false);
         view.getMainDirectoryButton().setVisible(true);
         view.getSecondaryDirectoryButton().setVisible(true);
         view.getCompareButton().setEnabled(true);
@@ -96,7 +98,9 @@ public class PCStockController {
         view.getSeeCheck().setSelected(true);
         view.getCompareCheck().setSelected(false);
         view.getDetailCheck().setSelected(false);
+        view.getResolution().setSelected(false);
         view.getDetailCheck().setVisible(true);
+        view.getResolution().setVisible(true);
         view.getMainDirectoryButton().setVisible(false);
         view.getSecondaryDirectoryButton().setVisible(false);
         view.getCompareButton().setVisible(false);
@@ -114,7 +118,9 @@ public class PCStockController {
         view.getSeeCheck().setSelected(false);
         view.getCompareCheck().setSelected(false);
         view.getDetailCheck().setSelected(false);
+        view.getResolution().setSelected(false);
         view.getDetailCheck().setVisible(false);
+        view.getResolution().setVisible(false);
         view.getMainDirectoryButton().setVisible(false);
         view.getSecondaryDirectoryButton().setVisible(false);
         view.getCompareButton().setVisible(false);
@@ -198,12 +204,13 @@ public class PCStockController {
         case TableModelConstants.SEE:
             setUpTablePerModel(new SeeModel(new Object[][] {}, SeeModel.getColumns()));
             break;
-        case TableModelConstants.DETAILED_SEE:
-            setUpTablePerModel(new SeeDetailedModel(new Object[][] {}, SeeDetailedModel.getColumns()));
-            break;
-        default:
-            break;
-        }
+		case TableModelConstants.DETAILED_SEE:
+			setUpTablePerModel(new SeeDetailedModel(new Object[][] {},
+					SeeDetailedModel.getColumns(view.getResolution().isSelected())));
+			break;
+		default:
+			break;
+		}
     }
 
     public void executeSeeAction() {
@@ -218,6 +225,7 @@ public class PCStockController {
 
     private void seeWithDetails() {
         changeTableModel(TableModelConstants.DETAILED_SEE);
+        detailedFileHelper.setWithResolution(view.getResolution().isSelected());
         List<DetailedFile> searchList = detailedFileHelper.getFileList(arrayFilter, directories.getMain());
         DefaultTableModel model = (DefaultTableModel) view.getDataTable().getModel();
         clearTable(model);
@@ -226,6 +234,9 @@ public class PCStockController {
             model.addRow(new Object[1]);
             view.getDataTable().getModel().setValueAt(dto.getName(), pos, 0);
             view.getDataTable().getModel().setValueAt(ByteConversor.readableFileSize(dto.getSize()), pos, 1);
+            if (detailedFileHelper.isWithResolution()) {
+            	view.getDataTable().getModel().setValueAt(dto.getResolution(), pos, 2);
+            }
             log.debug(ADDING_LOG, dto);
             pos++;
         }

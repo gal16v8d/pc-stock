@@ -49,6 +49,7 @@ public class PCStockView extends JFrame {
     private JCheckBox seeCheck;
     private JCheckBox compareCheck;
     private JCheckBox detailCheck;
+    private JCheckBox resolution;
     private JLabel compareBackground;
     private JLabel seeBackground;
     private JLabel renameBackground;
@@ -84,6 +85,7 @@ public class PCStockView extends JFrame {
         renameCheck = new JCheckBox();
         seeCheck = new JCheckBox();
         detailCheck = new JCheckBox();
+        resolution = new JCheckBox();
         seeButton = new JButton();
         renameButton = new JButton();
         compareBackground = new JLabel();
@@ -124,20 +126,19 @@ public class PCStockView extends JFrame {
         getContentPane().add(secondaryDirectoryLabel);
         secondaryDirectoryLabel.setBounds(380, 160, 250, 20);
 
-        compareButton.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.COMPARE_BTN_TXT));
-        compareButton.addActionListener(this::botonCompararActionPerformed);
-        getContentPane().add(compareButton);
-        compareButton.setBounds(20, 180, 160, 23);
-
         dataTable.setAutoCreateRowSorter(true);
         dataTable.setModel(new CompareModel(new Object[][] {}, CompareModel.getColumns()));
         dataTable.setGridColor(new Color(0, 0, 0));
         dataTable.setSelectionBackground(new Color(255, 255, 255));
         dataTable.setSelectionForeground(new Color(153, 153, 153));
         tableScroll.setViewportView(dataTable);
-
-        getContentPane().add(tableScroll);
-        tableScroll.setBounds(20, 210, 610, 359);
+        
+        seeCheck.setFont(arialBlack10);
+        seeCheck.setForeground(redRGB);
+        seeCheck.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.SEE_BTN_TXT));
+        seeCheck.addActionListener(this::prepareSeeView);
+        getContentPane().add(seeCheck);
+        seeCheck.setBounds(20, 10, 140, 23);
 
         compareCheck.setFont(arialBlack10);
         compareCheck.setForeground(redRGB);
@@ -153,28 +154,35 @@ public class PCStockView extends JFrame {
         getContentPane().add(renameCheck);
         renameCheck.setBounds(20, 70, 140, 23);
 
-        seeCheck.setFont(arialBlack10);
-        seeCheck.setForeground(redRGB);
-        seeCheck.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.SEE_BTN_TXT));
-        seeCheck.addActionListener(this::prepareSeeView);
-        getContentPane().add(seeCheck);
-        seeCheck.setBounds(20, 10, 140, 23);
-
         detailCheck.setFont(arialBlack10);
         detailCheck.setForeground(redRGB);
         detailCheck.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.DETAIL_CHK_TXT));
         getContentPane().add(detailCheck);
-        detailCheck.setBounds(20, 150, 140, 23);
+        detailCheck.setBounds(20, 120, 140, 23);
+        
+        resolution.setFont(arialBlack10);
+        resolution.setForeground(redRGB);
+        resolution.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.RES_CHK_TXT));
+        getContentPane().add(resolution);
+        resolution.setBounds(20, 150, 140, 23);
 
         seeButton.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.SEE_BTN_TXT));
         seeButton.addActionListener(this::botonVerActionPerformed);
         getContentPane().add(seeButton);
-        seeButton.setBounds(20, 180, 160, 23);
+        seeButton.setBounds(20, 180, 160, 20);
+
+        compareButton.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.COMPARE_BTN_TXT));
+        compareButton.addActionListener(this::botonCompararActionPerformed);
+        getContentPane().add(compareButton);
+        compareButton.setBounds(20, 180, 160, 20);
 
         renameButton.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_BTN_TXT));
         renameButton.addActionListener(this::botonRenombrarActionPerformed);
         getContentPane().add(renameButton);
         renameButton.setBounds(20, 180, 160, 20);
+        
+        getContentPane().add(tableScroll);
+        tableScroll.setBounds(20, 210, 610, 359);
 
         addImageToBackground("/cfg/compare.jpg", compareBackground);
         addImageToBackground("/cfg/see.jpg", seeBackground);

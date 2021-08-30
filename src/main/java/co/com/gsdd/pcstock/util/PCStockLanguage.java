@@ -16,6 +16,7 @@ public final class PCStockLanguage {
     public static final String RENAME_BTN_TXT = "rename.button.text";
     public static final String SEE_BTN_TXT = "see.button.text";
     public static final String DETAIL_CHK_TXT = "detail.check.text";
+    public static final String RES_CHK_TXT = "res.check.text";
     public static final String OPTION_MENU_TXT = "options.menu.text";
     public static final String COMPARE_MENU_TXT = "compare.menu.text";
     public static final String COMPARE_MENU_TOOLTIP = "compare.menu.tooltip";

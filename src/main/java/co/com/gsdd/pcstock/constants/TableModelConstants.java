@@ -18,6 +18,7 @@ public final class TableModelConstants {
     public static final String NAME = PCStockLanguage.getMessageByLocale("tbl.name.column");
     public static final String QUANTITY = PCStockLanguage.getMessageByLocale("tbl.quantity.column");
     public static final String SIZE = PCStockLanguage.getMessageByLocale("tbl.size.column");
+    public static final String RES = PCStockLanguage.getMessageByLocale("tbl.res.column");
     protected static final String[] COMPARE_TABLE_TITLES = { TableModelConstants.NAME, TableModelConstants.C_MAIN,
             TableModelConstants.C_SND, TableModelConstants.C_DIF };
 
