@@ -3,16 +3,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>co.com.gsdd</groupId>
+	<groupId>com.gsdd</groupId>
 	<artifactId>pc-stock</artifactId>
 	<version>2.0.001</version>
 	<packaging>jar</packaging>
 
+	<name>pc-stock</name>
 	<organization>
 		<name>GSDD</name>
 	</organization>
-	<name>pc-stock</name>
-
+	
 	<repositories>
 		<repository>
 			<id>central</id>
@@ -52,15 +52,14 @@
 		<jacoco.it.exec>${project.build.directory}/coverage-reports/jacoco-it.exec</jacoco.it.exec>
 		<jacoco.it.reportPath>${project.build.directory}/coverage-reports/jacoco-it</jacoco.it.reportPath>
 
-		<lombok.version>1.18.20</lombok.version>
+		<lombok.version>1.18.22</lombok.version>
 		<!-- Test -->
 		<junit.version>5.7.2</junit.version>
 		<mockito.version>3.9.0</mockito.version>
 		<!-- Logger api -->
-		<slf4j.version>1.7.25</slf4j.version>
+		<slf4j.version>1.7.32</slf4j.version>
 		<!-- Logger impl -->
-		<log4j.bridge.version>2.9.0</log4j.bridge.version>
-		<log4j.version>2.13.3</log4j.version>
+		<log4j.version>2.15.0</log4j.version>
 		<commons.io.version>2.6</commons.io.version>
 		<xuggler.version>5.4</xuggler.version>
 		<!-- Dependencias internas -->
@@ -106,7 +105,7 @@
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-slf4j-impl</artifactId>
-			<version>${log4j.bridge.version}</version>
+			<version>${log4j.version}</version>
 		</dependency>
 
 		<dependency>
@@ -129,7 +128,7 @@
 
 		<!-- Dependencias internas -->
 		<dependency>
-			<groupId>co.com.gsdd</groupId>
+			<groupId>com.gsdd</groupId>
 			<artifactId>file-util</artifactId>
 			<version>${file.util.version}</version>
 			<exclusions>
@@ -287,8 +286,9 @@
 				<artifactId>formatter-maven-plugin</artifactId>
 				<version>${mvn.format.plugin.version}</version>
 				<configuration>
+					<configFile>${project.basedir}/eclipse-java-google-style.xml</configFile>
 					<excludes>
-						<exclude>co/com/gsdd/pcstock/enums/NameExclusion.java</exclude>
+						<exclude>com/gsdd/pcstock/enums/NameExclusion.java</exclude>
 					</excludes>
 				</configuration>
 				<executions>
