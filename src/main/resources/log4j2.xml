@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
 	<Properties>
-		<Property name="basePath">./inventariopc-log</Property>
-		<Property name="baseProyectName">inventariopc</Property>
+		<Property name="basePath">./pc-stock-log</Property>
+		<Property name="baseProyectName">pc-stock</Property>
 	</Properties>
 
 	<Appenders>
