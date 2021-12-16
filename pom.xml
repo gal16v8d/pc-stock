@@ -59,7 +59,7 @@
 		<!-- Logger api -->
 		<slf4j.version>1.7.32</slf4j.version>
 		<!-- Logger impl -->
-		<log4j.version>2.15.0</log4j.version>
+		<log4j.version>2.16.0</log4j.version>
 		<commons.io.version>2.6</commons.io.version>
 		<xuggler.version>5.4</xuggler.version>
 		<!-- Dependencias internas -->
@@ -287,6 +287,7 @@
 				<version>${mvn.format.plugin.version}</version>
 				<configuration>
 					<configFile>${project.basedir}/eclipse-java-google-style.xml</configFile>
+					<lineEnding>CRLF</lineEnding>
 					<excludes>
 						<exclude>com/gsdd/pcstock/enums/NameExclusion.java</exclude>
 					</excludes>
