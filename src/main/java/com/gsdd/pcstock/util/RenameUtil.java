@@ -1,5 +1,8 @@
 package com.gsdd.pcstock.util;
 
+import com.gsdd.pcstock.constants.PCStockGralConstants;
+import com.gsdd.pcstock.enums.NameExclusionEnum;
+import com.gsdd.pcstock.model.Exclusion;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,20 +14,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import org.apache.commons.io.FileUtils;
-import com.gsdd.pcstock.constants.PCStockGralConstants;
-import com.gsdd.pcstock.enums.NameExclusionEnum;
-import com.gsdd.pcstock.model.Exclusion;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class RenameUtil {
 
   /**
-   *
    * @param dir
    * @param filters
    * @param newName
@@ -36,24 +35,27 @@ public final class RenameUtil {
       Collection<File> files = FileUtils.listFiles(dir, filters, true);
       List<Exclusion> exclusions = getExclusion(files);
       String newFullName = dir + File.separator + newName.trim();
-      files.parallelStream().forEach((File file) -> {
-        String currentName = file.getName();
-        String tempEN = NameExclusionEnum.findByName(currentName);
-        String fileExt = extractFileExtension(currentName);
-        String episodeNumber = extractFileName(currentName)
-            .replaceAll(PCStockGralConstants.REGEX_NUMBER, PCStockGralConstants.EMPTY);
-        for (Exclusion exclusion : exclusions) {
-          episodeNumber =
-              episodeNumber.replaceFirst(exclusion.getCode(), PCStockGralConstants.EMPTY);
-        }
-        episodeNumber = completeEpisode(episodeNumber, files.size());
-        File f1 = new File(dir + File.separator + currentName);
-        String ren = getRenameValue(tempEN, episodeNumber, fileExt, newFullName);
-        boolean r = f1.renameTo(new File(ren));
-        if (!r) {
-          failedCount.addAndGet(1);
-        }
-      });
+      files.parallelStream()
+          .forEach(
+              (File file) -> {
+                String currentName = file.getName();
+                String tempEN = NameExclusionEnum.findByName(currentName);
+                String fileExt = extractFileExtension(currentName);
+                String episodeNumber =
+                    extractFileName(currentName)
+                        .replaceAll(PCStockGralConstants.REGEX_NUMBER, PCStockGralConstants.EMPTY);
+                for (Exclusion exclusion : exclusions) {
+                  episodeNumber =
+                      episodeNumber.replaceFirst(exclusion.getCode(), PCStockGralConstants.EMPTY);
+                }
+                episodeNumber = completeEpisode(episodeNumber, files.size());
+                File f1 = new File(dir + File.separator + currentName);
+                String ren = getRenameValue(tempEN, episodeNumber, fileExt, newFullName);
+                boolean r = f1.renameTo(new File(ren));
+                if (!r) {
+                  failedCount.addAndGet(1);
+                }
+              });
       return (failedCount.get() == 0);
     } catch (Exception e) {
       log.error("Error renaming files: " + e.getMessage(), e);
@@ -63,7 +65,7 @@ public final class RenameUtil {
 
   /**
    * complete with 0's when necessary.
-   * 
+   *
    * @param ep episode name.
    * @param quantity files that match the episode name.
    * @return episode with number.
@@ -77,15 +79,15 @@ public final class RenameUtil {
 
   /**
    * Rename the file and preserve its special parts.
-   * 
+   *
    * @param tempEN specific part of the name to be appended.
    * @param episode number of episode.
    * @param fileExt extension for file.
    * @param newName new preffix for file.
    * @return new name for the file.
    */
-  public static String getRenameValue(String tempEN, String episode, String fileExt,
-      String newName) {
+  public static String getRenameValue(
+      String tempEN, String episode, String fileExt, String newName) {
     if (tempEN == null) {
       return newName + PCStockGralConstants.SPACE + episode + fileExt;
     } else {
@@ -99,7 +101,7 @@ public final class RenameUtil {
 
   /**
    * Allows to exclude from the episode numeric values than are part of the episode name.
-   * 
+   *
    * @param files list of files to analyze.
    * @return list of exclusion for avoid to take numeric value as a part of episode number.
    */
@@ -109,8 +111,9 @@ public final class RenameUtil {
     try {
       for (File file : files) {
         String currentName = file.getName();
-        String episode = extractFileName(currentName).replaceAll(PCStockGralConstants.REGEX_NUMBER,
-            PCStockGralConstants.SPACE);
+        String episode =
+            extractFileName(currentName)
+                .replaceAll(PCStockGralConstants.REGEX_NUMBER, PCStockGralConstants.SPACE);
         episode = episode.replaceAll(PCStockGralConstants.REGEX_SPACE, PCStockGralConstants.SPACE);
         Set<String> hs = new HashSet<>();
         hs.addAll(Arrays.asList(episode.split(PCStockGralConstants.SPACE)));
@@ -132,7 +135,8 @@ public final class RenameUtil {
           (Exclusion p1, Exclusion p2) -> p1.getFrequency().compareTo(p2.getFrequency());
       Collections.sort(tmp, excComparador);
       int filesSize = files.size();
-      return tmp.stream().filter(exclusionDto -> exclusionDto.getFrequency() == filesSize)
+      return tmp.stream()
+          .filter(exclusionDto -> exclusionDto.getFrequency() == filesSize)
           .collect(Collectors.toList());
     } catch (Exception e) {
       log.error(e.getMessage(), e);
@@ -145,8 +149,7 @@ public final class RenameUtil {
   }
 
   private static String extractFileExtension(String episodeName) {
-    return episodeName.substring(episodeName.lastIndexOf(PCStockGralConstants.DOT),
-        episodeName.length());
+    return episodeName.substring(
+        episodeName.lastIndexOf(PCStockGralConstants.DOT), episodeName.length());
   }
-
 }

@@ -17,5 +17,4 @@ public class Exclusion implements Serializable {
   private static final long serialVersionUID = -585144337387223281L;
   private String code;
   private Long frequency;
-
 }

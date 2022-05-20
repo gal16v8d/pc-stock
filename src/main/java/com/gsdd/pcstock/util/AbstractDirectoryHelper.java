@@ -1,5 +1,7 @@
 package com.gsdd.pcstock.util;
 
+import com.gsdd.pcstock.model.CompareFile;
+import com.gsdd.pcstock.model.PCStockFile;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
@@ -10,10 +12,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.apache.commons.io.filefilter.DirectoryFileFilter;
-import com.gsdd.pcstock.model.CompareFile;
-import com.gsdd.pcstock.model.PCStockFile;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.filefilter.DirectoryFileFilter;
 
 @Slf4j
 public abstract class AbstractDirectoryHelper<T extends PCStockFile> {
@@ -52,7 +52,9 @@ public abstract class AbstractDirectoryHelper<T extends PCStockFile> {
   private List<File> filterDirectories(File dir) {
     return Optional.ofNullable(dir)
         .map(directory -> directory.listFiles((FileFilter) DirectoryFileFilter.INSTANCE))
-        .map(Stream::of).orElseGet(Stream::empty).collect(Collectors.toList());
+        .map(Stream::of)
+        .orElseGet(Stream::empty)
+        .collect(Collectors.toList());
   }
 
   private List<CompareFile> iterateCompareFileList(List<T> cL1, List<T> cL2) {
@@ -77,10 +79,9 @@ public abstract class AbstractDirectoryHelper<T extends PCStockFile> {
       }
     }
     for (T psStockFile : cL2) {
-      compareList
-          .add(new CompareFile(psStockFile.getName(), 0L, extractAccountField(psStockFile), true));
+      compareList.add(
+          new CompareFile(psStockFile.getName(), 0L, extractAccountField(psStockFile), true));
     }
     return compareList;
   }
-
 }

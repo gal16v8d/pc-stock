@@ -1,7 +1,7 @@
 package com.gsdd.pcstock.ui.model;
 
-import javax.swing.table.DefaultTableModel;
 import com.gsdd.pcstock.constants.TableModelConstants;
+import javax.swing.table.DefaultTableModel;
 
 public class SeeModel extends DefaultTableModel {
 
@@ -23,5 +23,4 @@ public class SeeModel extends DefaultTableModel {
   public static String[] getColumns() {
     return COLUMNS;
   }
-
 }

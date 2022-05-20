@@ -51,6 +51,5 @@ public final class VideoPropertiesUtil {
         container.close();
       }
     }
-
   }
 }

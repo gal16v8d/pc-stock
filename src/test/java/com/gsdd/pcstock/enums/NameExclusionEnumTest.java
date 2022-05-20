@@ -8,8 +8,11 @@ public class NameExclusionEnumTest {
 
   @Test
   void findByNameTest() {
-    Stream.of(NameExclusionEnum.values()).forEach(type -> Assertions.assertEquals(type.getName(),
-        NameExclusionEnum.findByName(type.getName())));
+    Stream.of(NameExclusionEnum.values())
+        .forEach(
+            type ->
+                Assertions.assertEquals(
+                    type.getName(), NameExclusionEnum.findByName(type.getName())));
   }
 
   @Test

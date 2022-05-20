@@ -10,15 +10,20 @@ import lombok.ToString;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @ToString
 public enum NameExclusionEnum {
-  CORTO(" Corto"), CROSSOVER(" Crossover"), ESPECIAL(" SP"), MOVIE(" Pelicula"), OMAKE(
-      " Omake"), OVA(" Ova");
+  CORTO(" Corto"),
+  CROSSOVER(" Crossover"),
+  ESPECIAL(" SP"),
+  MOVIE(" Pelicula"),
+  OMAKE(" Omake"),
+  OVA(" Ova");
 
   private final String name;
 
   public static String findByName(String fileName) {
     return Stream.of(NameExclusionEnum.values())
-        .filter(exclusionNombre -> exclusionNombre.getName().equalsIgnoreCase(fileName)).findAny()
-        .map(NameExclusionEnum::getName).orElse(null);
+        .filter(exclusionNombre -> exclusionNombre.getName().equalsIgnoreCase(fileName))
+        .findAny()
+        .map(NameExclusionEnum::getName)
+        .orElse(null);
   }
-
 }
