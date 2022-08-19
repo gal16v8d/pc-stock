@@ -41,12 +41,12 @@
 
 		<lombok.version>1.18.24</lombok.version>
 		<!-- Test -->
-		<junit.version>5.8.2</junit.version>
-		<mockito.version>4.4.0</mockito.version>
+		<junit.version>5.9.0</junit.version>
+		<mockito.version>4.7.0</mockito.version>
 		<!-- Logger api -->
 		<slf4j.version>1.7.36</slf4j.version>
 		<!-- Logger impl -->
-		<log4j.version>2.17.2</log4j.version>
+		<log4j.version>2.18.0</log4j.version>
 		<commons.io.version>2.11.0</commons.io.version>
 		<xuggler.version>5.4</xuggler.version>
 		<!-- Dependencias internas -->
