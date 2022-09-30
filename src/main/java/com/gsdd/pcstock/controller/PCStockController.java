@@ -1,13 +1,5 @@
 package com.gsdd.pcstock.controller;
 
-import java.awt.Color;
-import java.io.File;
-import java.util.List;
-import java.util.Objects;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import com.gsdd.file.util.ByteConversor;
 import com.gsdd.pcstock.constants.PCStockGralConstants;
 import com.gsdd.pcstock.constants.TableModelConstants;
@@ -23,21 +15,27 @@ import com.gsdd.pcstock.util.GralFileDirectoryHelper;
 import com.gsdd.pcstock.util.PCStockLanguage;
 import com.gsdd.pcstock.util.RenameUtil;
 import com.gsdd.pcstock.view.PCStockView;
+import java.awt.Color;
+import java.io.File;
+import java.util.List;
+import java.util.Objects;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 public class PCStockController {
 
   private static final String ADDING_LOG = "Adding --> {}";
-  private PCStockView view;
+  private final PCStockView view;
   private Directory directories;
   private String[] arrayFilter;
   private GralFileDirectoryHelper gralFileHelper;
   private DetailedFileDirectoryHelper detailedFileHelper;
-
-  public PCStockController(PCStockView view) {
-    this.view = view;
-  }
 
   public void initWindow() {
     initVar();
@@ -138,15 +136,19 @@ public class PCStockController {
   }
 
   public void getFilters(boolean flag) {
-    String str = getUserInput(PCStockLanguage.getMessageByLocale(PCStockLanguage.ADD_FILTERS_TXT),
-        PCStockLanguage.getMessageByLocale(PCStockLanguage.ADD_FILTERS_DESC_TXT));
+    String str =
+        getUserInput(
+            PCStockLanguage.getMessageByLocale(PCStockLanguage.ADD_FILTERS_TXT),
+            PCStockLanguage.getMessageByLocale(PCStockLanguage.ADD_FILTERS_DESC_TXT));
     if (str != null) {
       arrayFilter = str.split(PCStockGralConstants.COMMA);
       enableButtons(flag);
     } else {
-      JOptionPane.showMessageDialog(null,
+      JOptionPane.showMessageDialog(
+          null,
           PCStockLanguage.getMessageByLocale(PCStockLanguage.ADD_FILTERS_ERR_TXT),
-          PCStockGralConstants.ERROR, JOptionPane.ERROR_MESSAGE);
+          PCStockGralConstants.ERROR,
+          JOptionPane.ERROR_MESSAGE);
       enableButtons(false);
     }
   }
@@ -204,8 +206,9 @@ public class PCStockController {
         setUpTablePerModel(new SeeModel(new Object[][] {}, SeeModel.getColumns()));
         break;
       case TableModelConstants.DETAILED_SEE:
-        setUpTablePerModel(new SeeDetailedModel(new Object[][] {},
-            SeeDetailedModel.getColumns(view.getResolution().isSelected())));
+        setUpTablePerModel(
+            new SeeDetailedModel(
+                new Object[][] {}, SeeDetailedModel.getColumns(view.getResolution().isSelected())));
         break;
       default:
         break;
@@ -233,8 +236,9 @@ public class PCStockController {
     for (DetailedFile dto : searchList) {
       model.addRow(new Object[1]);
       view.getDataTable().getModel().setValueAt(dto.getName(), pos, 0);
-      view.getDataTable().getModel().setValueAt(ByteConversor.readableFileSize(dto.getSize()), pos,
-          1);
+      view.getDataTable()
+          .getModel()
+          .setValueAt(ByteConversor.readableFileSize(dto.getSize()), pos, 1);
       if (detailedFileHelper.isWithResolution()) {
         view.getDataTable().getModel().setValueAt(dto.getResolution(), pos, 2);
       }
@@ -275,8 +279,9 @@ public class PCStockController {
 
   private void compareWithDetail() {
     changeTableModel(TableModelConstants.COMPARE);
-    List<CompareFile> searchList = detailedFileHelper.getCompareFileList(arrayFilter,
-        directories.getMain(), directories.getSecondary());
+    List<CompareFile> searchList =
+        detailedFileHelper.getCompareFileList(
+            arrayFilter, directories.getMain(), directories.getSecondary());
     DefaultTableModel model = (DefaultTableModel) view.getDataTable().getModel();
     clearTable(model);
     int pos = 0;
@@ -295,8 +300,9 @@ public class PCStockController {
 
   private void compareWithoutDetail() {
     changeTableModel(TableModelConstants.COMPARE);
-    List<CompareFile> searchList = gralFileHelper.getCompareFileList(arrayFilter,
-        directories.getMain(), directories.getSecondary());
+    List<CompareFile> searchList =
+        gralFileHelper.getCompareFileList(
+            arrayFilter, directories.getMain(), directories.getSecondary());
     DefaultTableModel model = (DefaultTableModel) view.getDataTable().getModel();
     clearTable(model);
     int pos = 0;
@@ -322,19 +328,23 @@ public class PCStockController {
   public void executeRenameAction() {
     getCheckedFilters();
     mainDirectoryAction(PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_SELECT_DIR_TXT));
-    String str = getUserInput(PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_TITLE_TXT),
-        PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_MSG_TXT));
+    String str =
+        getUserInput(
+            PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_TITLE_TXT),
+            PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_MSG_TXT));
     boolean b = RenameUtil.renameAllFilesOnDir(directories.getMain(), arrayFilter, str);
     if (b) {
-      JOptionPane.showMessageDialog(null,
+      JOptionPane.showMessageDialog(
+          null,
           PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_SUCCESS_TXT),
           PCStockLanguage.getMessageByLocale(PCStockLanguage.SUCCESS_TXT),
           JOptionPane.INFORMATION_MESSAGE);
     } else {
-      JOptionPane.showMessageDialog(null,
+      JOptionPane.showMessageDialog(
+          null,
           PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_FAIL_TXT),
-          PCStockGralConstants.ERROR, JOptionPane.ERROR_MESSAGE);
+          PCStockGralConstants.ERROR,
+          JOptionPane.ERROR_MESSAGE);
     }
   }
-
 }

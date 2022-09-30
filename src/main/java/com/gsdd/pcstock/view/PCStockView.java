@@ -1,5 +1,8 @@
 package com.gsdd.pcstock.view;
 
+import com.gsdd.pcstock.controller.PCStockController;
+import com.gsdd.pcstock.ui.model.CompareModel;
+import com.gsdd.pcstock.util.PCStockLanguage;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -23,16 +26,13 @@ import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-import com.gsdd.pcstock.controller.PCStockController;
-import com.gsdd.pcstock.ui.model.CompareModel;
-import com.gsdd.pcstock.util.PCStockLanguage;
 import javax.swing.WindowConstants;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
-public class PCStockView extends JFrame {
+public final class PCStockView extends JFrame {
 
   private static final long serialVersionUID = -1504352262642886494L;
   private static final String ARIAL_BLACK = "Arial Black";
@@ -57,9 +57,7 @@ public class PCStockView extends JFrame {
   private JScrollPane tableScroll;
   // End of variables declaration//GEN-END:variables
 
-  /**
-   * Creates new form InventarioPCFrame
-   */
+  /** Creates new form InventarioPCFrame. */
   private PCStockView() {
     PCStockLanguage.initBundle(getLocale());
     initComponents();
@@ -105,14 +103,14 @@ public class PCStockView extends JFrame {
     setResizable(false);
     getContentPane().setLayout(null);
 
-    mainDirectoryButton
-        .setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.MAIN_DIR_BTN_TXT));
+    mainDirectoryButton.setText(
+        PCStockLanguage.getMessageByLocale(PCStockLanguage.MAIN_DIR_BTN_TXT));
     mainDirectoryButton.addActionListener(this::botonPrincipalActionPerformed);
     getContentPane().add(mainDirectoryButton);
     mainDirectoryButton.setBounds(200, 90, 160, 23);
 
-    secondaryDirectoryButton
-        .setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.SEC_DIR_BTN_TXT));
+    secondaryDirectoryButton.setText(
+        PCStockLanguage.getMessageByLocale(PCStockLanguage.SEC_DIR_BTN_TXT));
     secondaryDirectoryButton.addActionListener(this::botonSecundarioActionPerformed);
     getContentPane().add(secondaryDirectoryButton);
     secondaryDirectoryButton.setBounds(200, 120, 160, 23);
@@ -190,7 +188,7 @@ public class PCStockView extends JFrame {
     addImageToBackground("/cfg/rename.jpg", renameBackground);
     setJMenuBar(initMenuBar());
     pack();
-  }// </editor-fold>//GEN-END:initComponents
+  } // </editor-fold>//GEN-END:initComponents
 
   private void addImageToBackground(String resource, JLabel label) {
     try {
@@ -209,24 +207,30 @@ public class PCStockView extends JFrame {
     optionsMenu.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.OPTION_MENU_TXT));
 
     JMenuItem compareMenu =
-        initJMenuItem(PCStockLanguage.getMessageByLocale(PCStockLanguage.COMPARE_MENU_TXT),
-            PCStockLanguage.getMessageByLocale(PCStockLanguage.COMPARE_MENU_TOOLTIP), '1',
+        initJMenuItem(
+            PCStockLanguage.getMessageByLocale(PCStockLanguage.COMPARE_MENU_TXT),
+            PCStockLanguage.getMessageByLocale(PCStockLanguage.COMPARE_MENU_TOOLTIP),
+            '1',
             KeyEvent.VK_NUMPAD1);
     compareMenu.addActionListener(this::prepareCompareView);
     optionsMenu.add(compareMenu);
     optionsMenu.add(new JSeparator());
 
     JMenuItem seeMenu =
-        initJMenuItem(PCStockLanguage.getMessageByLocale(PCStockLanguage.SEE_MENU_TXT),
-            PCStockLanguage.getMessageByLocale(PCStockLanguage.SEE_MENU_TOOLTIP), '2',
+        initJMenuItem(
+            PCStockLanguage.getMessageByLocale(PCStockLanguage.SEE_MENU_TXT),
+            PCStockLanguage.getMessageByLocale(PCStockLanguage.SEE_MENU_TOOLTIP),
+            '2',
             KeyEvent.VK_NUMPAD2);
     seeMenu.addActionListener(this::prepareSeeView);
     optionsMenu.add(seeMenu);
     optionsMenu.add(new JSeparator());
 
     JMenuItem renameMenu =
-        initJMenuItem(PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_MENU_TXT),
-            PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_MENU_TOOLTIP), '3',
+        initJMenuItem(
+            PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_MENU_TXT),
+            PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_MENU_TOOLTIP),
+            '3',
             KeyEvent.VK_NUMPAD3);
     renameMenu.addActionListener(this::prepareRenameView);
     optionsMenu.add(renameMenu);
@@ -237,7 +241,7 @@ public class PCStockView extends JFrame {
 
   private JMenuItem initJMenuItem(String text, String toolTip, char mnemonic, int shortcut) {
     JMenuItem menuItem = new JMenuItem();
-    menuItem.setAccelerator(KeyStroke.getKeyStroke(shortcut, InputEvent.ALT_MASK));
+    menuItem.setAccelerator(KeyStroke.getKeyStroke(shortcut, InputEvent.ALT_DOWN_MASK));
     menuItem.setMnemonic(mnemonic);
     menuItem.setText(text);
     menuItem.setToolTipText(toolTip);
@@ -283,22 +287,26 @@ public class PCStockView extends JFrame {
    */
   public static void main(String[] args) {
     try {
-      Optional<LookAndFeelInfo> lookAndFeelInfo = Stream.of(UIManager.getInstalledLookAndFeels())
-          .filter(lookAndFeel -> "Nimbus".equals(lookAndFeel.getName())).findAny();
-      UIManager.setLookAndFeel(lookAndFeelInfo.map(LookAndFeelInfo::getName)
-          .orElseGet(UIManager::getCrossPlatformLookAndFeelClassName));
+      Optional<LookAndFeelInfo> lookAndFeelInfo =
+          Stream.of(UIManager.getInstalledLookAndFeels())
+              .filter(lookAndFeel -> "Nimbus".equals(lookAndFeel.getName()))
+              .findAny();
+      UIManager.setLookAndFeel(
+          lookAndFeelInfo
+              .map(LookAndFeelInfo::getName)
+              .orElseGet(UIManager::getCrossPlatformLookAndFeelClassName));
     } catch (Exception e) {
       log.error("Can not set lookAndFeel", e);
     }
 
     /* Create and display the form */
-    EventQueue.invokeLater(() -> {
-      PCStockView gui = new PCStockView();
-      gui.setVisible(true);
-      gui.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-      controller = new PCStockController(gui);
-      controller.initWindow();
-    });
+    EventQueue.invokeLater(
+        () -> {
+          PCStockView gui = new PCStockView();
+          gui.setVisible(true);
+          gui.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+          controller = new PCStockController(gui);
+          controller.initWindow();
+        });
   }
-
 }

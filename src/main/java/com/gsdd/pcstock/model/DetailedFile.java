@@ -16,5 +16,4 @@ public class DetailedFile extends PCStockFile {
   private static final long serialVersionUID = -4729365422888418889L;
   private Long size;
   private String resolution;
-
 }

@@ -26,5 +26,4 @@ public class CompareFile implements Serializable, Comparable<CompareFile> {
   public int compareTo(CompareFile o) {
     return this.getName().compareTo(o.getName());
   }
-
 }

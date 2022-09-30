@@ -3,18 +3,17 @@ package com.gsdd.pcstock.util;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 class RenameUtilTest {
 
-  @TempDir
-  public Path path;
+  @TempDir public Path path;
 
   @BeforeEach
   void setUp() {
@@ -36,8 +35,7 @@ class RenameUtilTest {
   @ParameterizedTest
   @CsvSource({"txt,renamed", "mp4,renamed"})
   void renameAllFilesOnDirTest(String filter, String newName) {
-    Assertions
-        .assertTrue(RenameUtil.renameAllFilesOnDir(path.toFile(), new String[] {filter}, newName));
+    Assertions.assertTrue(
+        RenameUtil.renameAllFilesOnDir(path.toFile(), new String[] {filter}, newName));
   }
-
 }

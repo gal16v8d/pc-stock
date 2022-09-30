@@ -14,5 +14,4 @@ public class Directory {
 
   private File main;
   private File secondary;
-
 }

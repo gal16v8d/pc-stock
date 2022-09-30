@@ -1,7 +1,7 @@
 package com.gsdd.pcstock.ui.model;
 
-import javax.swing.table.DefaultTableModel;
 import com.gsdd.pcstock.constants.TableModelConstants;
+import javax.swing.table.DefaultTableModel;
 
 public class CompareModel extends DefaultTableModel {
 
@@ -10,8 +10,12 @@ public class CompareModel extends DefaultTableModel {
   private static final Class<?>[] TYPES =
       new Class[] {Object.class, Object.class, Object.class, Boolean.class};
 
-  private static final String[] COLUMNS = {TableModelConstants.NAME, TableModelConstants.C_MAIN,
-      TableModelConstants.C_SND, TableModelConstants.C_DIF};
+  private static final String[] COLUMNS = {
+    TableModelConstants.NAME,
+    TableModelConstants.C_MAIN,
+    TableModelConstants.C_SND,
+    TableModelConstants.C_DIF
+  };
 
   public CompareModel(Object[][] data, Object[] columnNames) {
     super(data, columnNames);
@@ -25,5 +29,4 @@ public class CompareModel extends DefaultTableModel {
   public static String[] getColumns() {
     return COLUMNS;
   }
-
 }

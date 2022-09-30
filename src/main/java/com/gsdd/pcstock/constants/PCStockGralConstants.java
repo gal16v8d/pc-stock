@@ -15,5 +15,4 @@ public final class PCStockGralConstants {
   public static final String ROOT_DIR = ".";
   public static final String SPACE = " ";
   public static final Integer THREAD_POOL_MAX = 25;
-
 }
