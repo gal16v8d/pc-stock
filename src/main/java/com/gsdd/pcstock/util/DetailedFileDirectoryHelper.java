@@ -20,20 +20,19 @@ public class DetailedFileDirectoryHelper extends AbstractDirectoryHelper<Detaile
   @Override
   public List<DetailedFile> traverseDirectories(String[] filters, List<File> directories) {
     List<DetailedFile> fileList = new CopyOnWriteArrayList<>();
-    directories.parallelStream()
-        .forEach(
-            directory ->
-                FileUtils.listFiles(directory, filters, true).stream()
-                    .forEach(
-                        file -> {
-                          log.debug("fp > {}", file.getAbsolutePath());
-                          fileList.add(
-                              DetailedFile.builder()
-                                  .name(file.getName())
-                                  .size(file.length())
-                                  .resolution(extractResolution(file.getAbsolutePath()))
-                                  .build());
-                        }));
+    directories.forEach(
+        directory ->
+            FileUtils.listFiles(directory, filters, true).parallelStream()
+                .forEach(
+                    file -> {
+                      log.debug("fp > {}", file.getAbsolutePath());
+                      fileList.add(
+                          DetailedFile.builder()
+                              .name(file.getName())
+                              .size(file.length())
+                              .resolution(extractResolution(file.getAbsolutePath()))
+                              .build());
+                    }));
     Collections.sort(fileList);
     return fileList;
   }
@@ -42,7 +41,7 @@ public class DetailedFileDirectoryHelper extends AbstractDirectoryHelper<Detaile
     String resolucion = "0x0";
     if (withResolution) {
       try {
-        resolucion = VideoPropertiesUtil.getFileResolutionXuggler(path);
+        resolucion = new VideoPropertiesUtil().getFileResolutionXuggler(path);
       } catch (Exception e) {
         log.warn("Error during extract resolution for: {}", path, e);
       }
