@@ -317,10 +317,10 @@ public class PCStockController {
     }
   }
 
-  private void clearTable(DefaultTableModel modelo) {
-    Integer tam = modelo.getRowCount();
+  private void clearTable(DefaultTableModel model) {
+    Integer tam = model.getRowCount();
     for (Integer a = 0; a < tam; a++) {
-      modelo.removeRow(modelo.getRowCount() - 1);
+      model.removeRow(model.getRowCount() - 1);
     }
     view.getDataTable().setBackground(Color.LIGHT_GRAY);
   }

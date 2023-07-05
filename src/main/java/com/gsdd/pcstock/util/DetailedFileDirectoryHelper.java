@@ -24,17 +24,18 @@ public class DetailedFileDirectoryHelper extends AbstractDirectoryHelper<Detaile
         directory ->
             FileUtils.listFiles(directory, filters, true).parallelStream()
                 .forEach(
-                    file -> {
-                      log.debug("fp > {}", file.getAbsolutePath());
-                      fileList.add(
-                          DetailedFile.builder()
-                              .name(file.getName())
-                              .size(file.length())
-                              .resolution(extractResolution(file.getAbsolutePath()))
-                              .build());
-                    }));
+                    file -> fileList.add(fromFile(file))));
     Collections.sort(fileList);
     return fileList;
+  }
+  
+  private DetailedFile fromFile(File file) {
+    log.debug("current file > {}", file.getAbsolutePath());
+    return DetailedFile.builder()
+        .name(file.getName())
+        .size(file.length())
+        .resolution(extractResolution(file.getAbsolutePath()))
+        .build();
   }
 
   private String extractResolution(String path) {
