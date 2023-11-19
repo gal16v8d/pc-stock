@@ -28,7 +28,7 @@ public class DetailedFileDirectoryHelper extends AbstractDirectoryHelper<Detaile
     Collections.sort(fileList);
     return fileList;
   }
-  
+
   private DetailedFile fromFile(File file) {
     log.debug("current file > {}", file.getAbsolutePath());
     return DetailedFile.builder()
