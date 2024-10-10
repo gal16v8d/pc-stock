@@ -1,11 +1,10 @@
 package com.gsdd.pcstock.util;
 
 import com.gsdd.pcstock.model.CompareFile;
-import com.gsdd.pcstock.model.PCStockFile;
+import com.gsdd.pcstock.model.PcStockFile;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -16,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 
 @Slf4j
-public abstract class AbstractDirectoryHelper<T extends PCStockFile> {
+public abstract class AbstractDirectoryHelper<T extends PcStockFile> {
 
   public abstract List<T> traverseDirectories(String[] filters, List<File> directories);
 
@@ -40,7 +39,7 @@ public abstract class AbstractDirectoryHelper<T extends PCStockFile> {
     if (dir != null) {
       List<File> directoryList = filterDirectories(dir);
       if (directoryList.isEmpty()) {
-        fileList = traverseDirectories(filters, Arrays.asList(dir));
+        fileList = traverseDirectories(filters, List.of(dir));
       } else {
         fileList = traverseDirectories(filters, directoryList);
       }
@@ -52,8 +51,8 @@ public abstract class AbstractDirectoryHelper<T extends PCStockFile> {
   private List<File> filterDirectories(File dir) {
     return Optional.ofNullable(dir)
         .map(directory -> directory.listFiles((FileFilter) DirectoryFileFilter.INSTANCE))
-        .map(Stream::of)
-        .orElseGet(Stream::empty)
+        .stream()
+        .flatMap(Stream::of)
         .collect(Collectors.toList());
   }
 

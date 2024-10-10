@@ -23,8 +23,7 @@ public class DetailedFileDirectoryHelper extends AbstractDirectoryHelper<Detaile
     directories.forEach(
         directory ->
             FileUtils.listFiles(directory, filters, true).parallelStream()
-                .forEach(
-                    file -> fileList.add(fromFile(file))));
+                .forEach(file -> fileList.add(fromFile(file))));
     Collections.sort(fileList);
     return fileList;
   }
@@ -42,7 +41,7 @@ public class DetailedFileDirectoryHelper extends AbstractDirectoryHelper<Detaile
     String resolucion = "0x0";
     if (withResolution) {
       try {
-        resolucion = new VideoPropertiesUtil().getFileResolutionXuggler(path);
+        resolucion = VideoPropertiesUtil.getFileResolutionXuggler(path);
       } catch (Exception e) {
         log.warn("Error during extract resolution for: {}", path, e);
       }

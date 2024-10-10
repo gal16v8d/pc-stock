@@ -1,10 +1,9 @@
 package com.gsdd.pcstock.constants;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class PCStockGralConstants {
+@UtilityClass
+public final class PcStockGeneralConstants {
 
   public static final String COMMA = ",";
   public static final String DOT = ".";

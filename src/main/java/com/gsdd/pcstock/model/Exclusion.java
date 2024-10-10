@@ -1,5 +1,6 @@
 package com.gsdd.pcstock.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 import lombok.EqualsAndHashCode;
 import lombok.Generated;
@@ -14,7 +15,7 @@ import lombok.ToString;
 @ToString
 public class Exclusion implements Serializable {
 
-  private static final long serialVersionUID = -585144337387223281L;
+  @Serial private static final long serialVersionUID = -585144337387223281L;
   private String code;
   private Long frequency;
 }

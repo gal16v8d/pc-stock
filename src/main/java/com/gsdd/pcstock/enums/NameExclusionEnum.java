@@ -21,7 +21,7 @@ public enum NameExclusionEnum {
 
   public static String findByName(String fileName) {
     return Stream.of(NameExclusionEnum.values())
-        .filter(exclusionNombre -> exclusionNombre.getName().equalsIgnoreCase(fileName))
+        .filter(exclusionName -> exclusionName.getName().equalsIgnoreCase(fileName))
         .findAny()
         .map(NameExclusionEnum::getName)
         .orElse(null);

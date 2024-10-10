@@ -1,14 +1,15 @@
 package com.gsdd.pcstock.view;
 
-import com.gsdd.pcstock.controller.PCStockController;
+import com.gsdd.pcstock.controller.PcStockController;
 import com.gsdd.pcstock.ui.model.CompareModel;
-import com.gsdd.pcstock.util.PCStockLanguage;
+import com.gsdd.pcstock.util.PcStockLanguage;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.io.Serial;
 import java.util.Optional;
 import java.util.stream.Stream;
 import javax.imageio.ImageIO;
@@ -32,11 +33,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
-public final class PCStockView extends JFrame {
+public final class PcStockView extends JFrame {
 
-  private static final long serialVersionUID = -1504352262642886494L;
+  @Serial private static final long serialVersionUID = -1504352262642886494L;
   private static final String ARIAL_BLACK = "Arial Black";
-  private static PCStockController controller;
+  private static PcStockController controller;
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private JButton compareButton;
   private JButton seeButton;
@@ -55,11 +56,12 @@ public final class PCStockView extends JFrame {
   private JLabel secondaryDirectoryLabel;
   private JTable dataTable;
   private JScrollPane tableScroll;
+
   // End of variables declaration//GEN-END:variables
 
   /** Creates new form InventarioPCFrame. */
-  private PCStockView() {
-    PCStockLanguage.initBundle(getLocale());
+  private PcStockView() {
+    PcStockLanguage.initBundle(getLocale());
     initComponents();
   }
 
@@ -104,13 +106,13 @@ public final class PCStockView extends JFrame {
     getContentPane().setLayout(null);
 
     mainDirectoryButton.setText(
-        PCStockLanguage.getMessageByLocale(PCStockLanguage.MAIN_DIR_BTN_TXT));
+        PcStockLanguage.getMessageByLocale(PcStockLanguage.MAIN_DIR_BTN_TXT));
     mainDirectoryButton.addActionListener(this::botonPrincipalActionPerformed);
     getContentPane().add(mainDirectoryButton);
     mainDirectoryButton.setBounds(200, 90, 160, 23);
 
     secondaryDirectoryButton.setText(
-        PCStockLanguage.getMessageByLocale(PCStockLanguage.SEC_DIR_BTN_TXT));
+        PcStockLanguage.getMessageByLocale(PcStockLanguage.SEC_DIR_BTN_TXT));
     secondaryDirectoryButton.addActionListener(this::botonSecundarioActionPerformed);
     getContentPane().add(secondaryDirectoryButton);
     secondaryDirectoryButton.setBounds(200, 120, 160, 23);
@@ -134,48 +136,48 @@ public final class PCStockView extends JFrame {
 
     seeCheck.setFont(arialBlack10);
     seeCheck.setForeground(redRGB);
-    seeCheck.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.SEE_BTN_TXT));
+    seeCheck.setText(PcStockLanguage.getMessageByLocale(PcStockLanguage.SEE_BTN_TXT));
     seeCheck.addActionListener(this::prepareSeeView);
     getContentPane().add(seeCheck);
     seeCheck.setBounds(20, 10, 140, 23);
 
     compareCheck.setFont(arialBlack10);
     compareCheck.setForeground(redRGB);
-    compareCheck.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.COMPARE_BTN_TXT));
+    compareCheck.setText(PcStockLanguage.getMessageByLocale(PcStockLanguage.COMPARE_BTN_TXT));
     compareCheck.addActionListener(this::prepareCompareView);
     getContentPane().add(compareCheck);
     compareCheck.setBounds(20, 40, 140, 23);
 
     renameCheck.setFont(arialBlack10);
     renameCheck.setForeground(new Color(255, 0, 51));
-    renameCheck.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_BTN_TXT));
+    renameCheck.setText(PcStockLanguage.getMessageByLocale(PcStockLanguage.RENAME_BTN_TXT));
     renameCheck.addActionListener(this::prepareRenameView);
     getContentPane().add(renameCheck);
     renameCheck.setBounds(20, 70, 140, 23);
 
     detailCheck.setFont(arialBlack10);
     detailCheck.setForeground(redRGB);
-    detailCheck.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.DETAIL_CHK_TXT));
+    detailCheck.setText(PcStockLanguage.getMessageByLocale(PcStockLanguage.DETAIL_CHK_TXT));
     getContentPane().add(detailCheck);
     detailCheck.setBounds(20, 120, 140, 23);
 
     resolution.setFont(arialBlack10);
     resolution.setForeground(redRGB);
-    resolution.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.RES_CHK_TXT));
+    resolution.setText(PcStockLanguage.getMessageByLocale(PcStockLanguage.RES_CHK_TXT));
     getContentPane().add(resolution);
     resolution.setBounds(20, 150, 140, 23);
 
-    seeButton.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.SEE_BTN_TXT));
+    seeButton.setText(PcStockLanguage.getMessageByLocale(PcStockLanguage.SEE_BTN_TXT));
     seeButton.addActionListener(this::botonVerActionPerformed);
     getContentPane().add(seeButton);
     seeButton.setBounds(20, 180, 160, 20);
 
-    compareButton.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.COMPARE_BTN_TXT));
+    compareButton.setText(PcStockLanguage.getMessageByLocale(PcStockLanguage.COMPARE_BTN_TXT));
     compareButton.addActionListener(this::botonCompararActionPerformed);
     getContentPane().add(compareButton);
     compareButton.setBounds(20, 180, 160, 20);
 
-    renameButton.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_BTN_TXT));
+    renameButton.setText(PcStockLanguage.getMessageByLocale(PcStockLanguage.RENAME_BTN_TXT));
     renameButton.addActionListener(this::botonRenombrarActionPerformed);
     getContentPane().add(renameButton);
     renameButton.setBounds(20, 180, 160, 20);
@@ -204,12 +206,12 @@ public final class PCStockView extends JFrame {
   private JMenuBar initMenuBar() {
     JMenuBar menuBar = new javax.swing.JMenuBar();
     JMenu optionsMenu = new JMenu();
-    optionsMenu.setText(PCStockLanguage.getMessageByLocale(PCStockLanguage.OPTION_MENU_TXT));
+    optionsMenu.setText(PcStockLanguage.getMessageByLocale(PcStockLanguage.OPTION_MENU_TXT));
 
     JMenuItem compareMenu =
         initJMenuItem(
-            PCStockLanguage.getMessageByLocale(PCStockLanguage.COMPARE_MENU_TXT),
-            PCStockLanguage.getMessageByLocale(PCStockLanguage.COMPARE_MENU_TOOLTIP),
+            PcStockLanguage.getMessageByLocale(PcStockLanguage.COMPARE_MENU_TXT),
+            PcStockLanguage.getMessageByLocale(PcStockLanguage.COMPARE_MENU_TOOLTIP),
             '1',
             KeyEvent.VK_NUMPAD1);
     compareMenu.addActionListener(this::prepareCompareView);
@@ -218,8 +220,8 @@ public final class PCStockView extends JFrame {
 
     JMenuItem seeMenu =
         initJMenuItem(
-            PCStockLanguage.getMessageByLocale(PCStockLanguage.SEE_MENU_TXT),
-            PCStockLanguage.getMessageByLocale(PCStockLanguage.SEE_MENU_TOOLTIP),
+            PcStockLanguage.getMessageByLocale(PcStockLanguage.SEE_MENU_TXT),
+            PcStockLanguage.getMessageByLocale(PcStockLanguage.SEE_MENU_TOOLTIP),
             '2',
             KeyEvent.VK_NUMPAD2);
     seeMenu.addActionListener(this::prepareSeeView);
@@ -228,8 +230,8 @@ public final class PCStockView extends JFrame {
 
     JMenuItem renameMenu =
         initJMenuItem(
-            PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_MENU_TXT),
-            PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_MENU_TOOLTIP),
+            PcStockLanguage.getMessageByLocale(PcStockLanguage.RENAME_MENU_TXT),
+            PcStockLanguage.getMessageByLocale(PcStockLanguage.RENAME_MENU_TOOLTIP),
             '3',
             KeyEvent.VK_NUMPAD3);
     renameMenu.addActionListener(this::prepareRenameView);
@@ -250,12 +252,12 @@ public final class PCStockView extends JFrame {
 
   private void botonPrincipalActionPerformed(ActionEvent evt) {
     controller.mainDirectoryAction(
-        PCStockLanguage.getMessageByLocale(PCStockLanguage.SELECT_MAIN_DIR_TXT));
+        PcStockLanguage.getMessageByLocale(PcStockLanguage.SELECT_MAIN_DIR_TXT));
   }
 
   private void botonSecundarioActionPerformed(ActionEvent evt) {
     controller.secondaryDirectoryAction(
-        PCStockLanguage.getMessageByLocale(PCStockLanguage.SELECT_SEC_DIR_TXT));
+        PcStockLanguage.getMessageByLocale(PcStockLanguage.SELECT_SEC_DIR_TXT));
   }
 
   private void prepareCompareView(ActionEvent evt) {
@@ -302,10 +304,10 @@ public final class PCStockView extends JFrame {
     /* Create and display the form */
     EventQueue.invokeLater(
         () -> {
-          PCStockView gui = new PCStockView();
+          PcStockView gui = new PcStockView();
           gui.setVisible(true);
           gui.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-          controller = new PCStockController(gui);
+          controller = new PcStockController(gui);
           controller.initWindow();
         });
   }

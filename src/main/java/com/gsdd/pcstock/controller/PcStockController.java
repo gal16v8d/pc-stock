@@ -1,24 +1,23 @@
 package com.gsdd.pcstock.controller;
 
-import com.gsdd.file.util.ByteConversor;
-import com.gsdd.pcstock.constants.PCStockGralConstants;
+import com.gsdd.file.util.ByteConverter;
+import com.gsdd.pcstock.constants.PcStockGeneralConstants;
 import com.gsdd.pcstock.constants.TableModelConstants;
 import com.gsdd.pcstock.model.CompareFile;
 import com.gsdd.pcstock.model.DetailedFile;
 import com.gsdd.pcstock.model.Directory;
-import com.gsdd.pcstock.model.GralFile;
+import com.gsdd.pcstock.model.GeneralFile;
 import com.gsdd.pcstock.ui.model.CompareModel;
 import com.gsdd.pcstock.ui.model.SeeDetailedModel;
 import com.gsdd.pcstock.ui.model.SeeModel;
 import com.gsdd.pcstock.util.DetailedFileDirectoryHelper;
-import com.gsdd.pcstock.util.GralFileDirectoryHelper;
-import com.gsdd.pcstock.util.PCStockLanguage;
+import com.gsdd.pcstock.util.GeneralFileDirectoryHelper;
+import com.gsdd.pcstock.util.PcStockLanguage;
 import com.gsdd.pcstock.util.RenameUtil;
-import com.gsdd.pcstock.view.PCStockView;
+import com.gsdd.pcstock.view.PcStockView;
 import java.awt.Color;
 import java.io.File;
 import java.util.List;
-import java.util.Objects;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -28,13 +27,13 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class PCStockController {
+public class PcStockController {
 
   private static final String ADDING_LOG = "Adding --> {}";
-  private final PCStockView view;
+  private final PcStockView view;
   private Directory directories;
   private String[] arrayFilter;
-  private GralFileDirectoryHelper gralFileHelper;
+  private GeneralFileDirectoryHelper generalFileHelper;
   private DetailedFileDirectoryHelper detailedFileHelper;
 
   public void initWindow() {
@@ -44,7 +43,7 @@ public class PCStockController {
 
   public void initVar() {
     this.directories = new Directory();
-    this.gralFileHelper = new GralFileDirectoryHelper();
+    this.generalFileHelper = new GeneralFileDirectoryHelper();
     this.detailedFileHelper = new DetailedFileDirectoryHelper();
   }
 
@@ -128,7 +127,7 @@ public class PCStockController {
   }
 
   public String getUserInput(String title, String msj) {
-    String str = null;
+    String str;
     do {
       str = JOptionPane.showInputDialog(null, msj, title, 1);
     } while (str == null || str.trim().isEmpty());
@@ -138,16 +137,16 @@ public class PCStockController {
   public void getFilters(boolean flag) {
     String str =
         getUserInput(
-            PCStockLanguage.getMessageByLocale(PCStockLanguage.ADD_FILTERS_TXT),
-            PCStockLanguage.getMessageByLocale(PCStockLanguage.ADD_FILTERS_DESC_TXT));
+            PcStockLanguage.getMessageByLocale(PcStockLanguage.ADD_FILTERS_TXT),
+            PcStockLanguage.getMessageByLocale(PcStockLanguage.ADD_FILTERS_DESC_TXT));
     if (str != null) {
-      arrayFilter = str.split(PCStockGralConstants.COMMA);
+      arrayFilter = str.split(PcStockGeneralConstants.COMMA);
       enableButtons(flag);
     } else {
       JOptionPane.showMessageDialog(
           null,
-          PCStockLanguage.getMessageByLocale(PCStockLanguage.ADD_FILTERS_ERR_TXT),
-          PCStockGralConstants.ERROR,
+          PcStockLanguage.getMessageByLocale(PcStockLanguage.ADD_FILTERS_ERR_TXT),
+          PcStockGeneralConstants.ERROR,
           JOptionPane.ERROR_MESSAGE);
       enableButtons(false);
     }
@@ -155,7 +154,7 @@ public class PCStockController {
 
   public String getDirectory(String msg) {
     JFileChooser chooser = new JFileChooser();
-    chooser.setCurrentDirectory(new File(PCStockGralConstants.ROOT_DIR));
+    chooser.setCurrentDirectory(new File(PcStockGeneralConstants.ROOT_DIR));
     chooser.setDialogTitle(msg);
     chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
     chooser.setAcceptAllFileFilterUsed(false);
@@ -163,7 +162,7 @@ public class PCStockController {
       log.info("Directory: {}", chooser.getSelectedFile().getAbsolutePath());
       return chooser.getSelectedFile().getAbsolutePath();
     } else {
-      return PCStockGralConstants.EMPTY;
+      return PcStockGeneralConstants.EMPTY;
     }
   }
 
@@ -180,10 +179,10 @@ public class PCStockController {
   }
 
   private String getCheckedDirectory(String message) {
-    String dir = null;
+    String dir;
     do {
       dir = getDirectory(message);
-    } while (Objects.equals(PCStockGralConstants.EMPTY, dir));
+    } while (dir == null || dir.trim().isEmpty());
     return dir;
   }
 
@@ -217,7 +216,7 @@ public class PCStockController {
 
   public void executeSeeAction() {
     getCheckedFilters();
-    mainDirectoryAction(PCStockLanguage.getMessageByLocale(PCStockLanguage.SELECT_MAIN_DIR_TXT));
+    mainDirectoryAction(PcStockLanguage.getMessageByLocale(PcStockLanguage.SELECT_MAIN_DIR_TXT));
     if (view.getDetailCheck().isSelected()) {
       seeWithDetails();
     } else {
@@ -238,7 +237,7 @@ public class PCStockController {
       view.getDataTable().getModel().setValueAt(dto.getName(), pos, 0);
       view.getDataTable()
           .getModel()
-          .setValueAt(ByteConversor.readableFileSize(dto.getSize()), pos, 1);
+          .setValueAt(ByteConverter.readableFileSize(dto.getSize()), pos, 1);
       if (detailedFileHelper.isWithResolution()) {
         view.getDataTable().getModel().setValueAt(dto.getResolution(), pos, 2);
       }
@@ -249,11 +248,12 @@ public class PCStockController {
 
   private void seeWithoutDetails() {
     changeTableModel(TableModelConstants.SEE);
-    List<GralFile> searchList = gralFileHelper.getFileList(arrayFilter, directories.getMain());
+    List<GeneralFile> searchList =
+        generalFileHelper.getFileList(arrayFilter, directories.getMain());
     DefaultTableModel model = (DefaultTableModel) view.getDataTable().getModel();
     clearTable(model);
     int pos = 0;
-    for (GralFile dto : searchList) {
+    for (GeneralFile dto : searchList) {
       model.addRow(new Object[1]);
       view.getDataTable().getModel().setValueAt(dto.getName(), pos, 0);
       view.getDataTable().getModel().setValueAt(dto.getQuantity(), pos, 1);
@@ -287,8 +287,8 @@ public class PCStockController {
     int pos = 0;
     for (CompareFile dto : searchList) {
       model.addRow(new Object[1]);
-      String ppal = ByteConversor.readableFileSize(dto.getOnMain());
-      String snd = ByteConversor.readableFileSize(dto.getOnSecondary());
+      String ppal = ByteConverter.readableFileSize(dto.getOnMain());
+      String snd = ByteConverter.readableFileSize(dto.getOnSecondary());
       view.getDataTable().getModel().setValueAt(dto.getName(), pos, 0);
       view.getDataTable().getModel().setValueAt(ppal, pos, 1);
       view.getDataTable().getModel().setValueAt(snd, pos, 2);
@@ -301,7 +301,7 @@ public class PCStockController {
   private void compareWithoutDetail() {
     changeTableModel(TableModelConstants.COMPARE);
     List<CompareFile> searchList =
-        gralFileHelper.getCompareFileList(
+        generalFileHelper.getCompareFileList(
             arrayFilter, directories.getMain(), directories.getSecondary());
     DefaultTableModel model = (DefaultTableModel) view.getDataTable().getModel();
     clearTable(model);
@@ -318,8 +318,8 @@ public class PCStockController {
   }
 
   private void clearTable(DefaultTableModel model) {
-    Integer tam = model.getRowCount();
-    for (Integer a = 0; a < tam; a++) {
+    int tam = model.getRowCount();
+    for (int a = 0; a < tam; a++) {
       model.removeRow(model.getRowCount() - 1);
     }
     view.getDataTable().setBackground(Color.LIGHT_GRAY);
@@ -327,23 +327,23 @@ public class PCStockController {
 
   public void executeRenameAction() {
     getCheckedFilters();
-    mainDirectoryAction(PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_SELECT_DIR_TXT));
+    mainDirectoryAction(PcStockLanguage.getMessageByLocale(PcStockLanguage.RENAME_SELECT_DIR_TXT));
     String str =
         getUserInput(
-            PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_TITLE_TXT),
-            PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_MSG_TXT));
+            PcStockLanguage.getMessageByLocale(PcStockLanguage.RENAME_TITLE_TXT),
+            PcStockLanguage.getMessageByLocale(PcStockLanguage.RENAME_MSG_TXT));
     boolean b = RenameUtil.renameAllFilesOnDir(directories.getMain(), arrayFilter, str);
     if (b) {
       JOptionPane.showMessageDialog(
           null,
-          PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_SUCCESS_TXT),
-          PCStockLanguage.getMessageByLocale(PCStockLanguage.SUCCESS_TXT),
+          PcStockLanguage.getMessageByLocale(PcStockLanguage.RENAME_SUCCESS_TXT),
+          PcStockLanguage.getMessageByLocale(PcStockLanguage.SUCCESS_TXT),
           JOptionPane.INFORMATION_MESSAGE);
     } else {
       JOptionPane.showMessageDialog(
           null,
-          PCStockLanguage.getMessageByLocale(PCStockLanguage.RENAME_FAIL_TXT),
-          PCStockGralConstants.ERROR,
+          PcStockLanguage.getMessageByLocale(PcStockLanguage.RENAME_FAIL_TXT),
+          PcStockGeneralConstants.ERROR,
           JOptionPane.ERROR_MESSAGE);
     }
   }

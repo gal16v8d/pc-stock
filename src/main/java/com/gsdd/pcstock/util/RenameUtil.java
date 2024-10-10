@@ -1,6 +1,6 @@
 package com.gsdd.pcstock.util;
 
-import com.gsdd.pcstock.constants.PCStockGralConstants;
+import com.gsdd.pcstock.constants.PcStockGeneralConstants;
 import com.gsdd.pcstock.enums.NameExclusionEnum;
 import com.gsdd.pcstock.model.Exclusion;
 import java.io.File;
@@ -14,13 +14,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 
 @Slf4j
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class RenameUtil {
 
   /**
@@ -43,10 +42,12 @@ public final class RenameUtil {
                 String fileExt = extractFileExtension(currentName);
                 String episodeNumber =
                     extractFileName(currentName)
-                        .replaceAll(PCStockGralConstants.REGEX_NUMBER, PCStockGralConstants.EMPTY);
+                        .replaceAll(
+                            PcStockGeneralConstants.REGEX_NUMBER, PcStockGeneralConstants.EMPTY);
                 for (Exclusion exclusion : exclusions) {
                   episodeNumber =
-                      episodeNumber.replaceFirst(exclusion.getCode(), PCStockGralConstants.EMPTY);
+                      episodeNumber.replaceFirst(
+                          exclusion.getCode(), PcStockGeneralConstants.EMPTY);
                 }
                 episodeNumber = completeEpisode(episodeNumber, files.size());
                 File f1 = new File(dir + File.separator + currentName);
@@ -58,7 +59,7 @@ public final class RenameUtil {
               });
       return (failedCount.get() == 0);
     } catch (Exception e) {
-      log.error("Error renaming files: " + e.getMessage(), e);
+      log.error("Error renaming files: {}", e.getMessage(), e);
       return false;
     }
   }
@@ -71,7 +72,7 @@ public final class RenameUtil {
    * @return episode with number.
    */
   public static String completeEpisode(String ep, Integer quantity) {
-    if (ep != null && !PCStockGralConstants.EMPTY.equals(ep.trim())) {
+    if (ep != null && !PcStockGeneralConstants.EMPTY.equals(ep.trim())) {
       return String.format("%0" + String.valueOf(quantity).length() + "d", Integer.parseInt(ep));
     }
     return ep;
@@ -80,21 +81,21 @@ public final class RenameUtil {
   /**
    * Rename the file and preserve its special parts.
    *
-   * @param tempEN specific part of the name to be appended.
+   * @param tempEn specific part of the name to be appended.
    * @param episode number of episode.
    * @param fileExt extension for file.
    * @param newName new preffix for file.
    * @return new name for the file.
    */
   public static String getRenameValue(
-      String tempEN, String episode, String fileExt, String newName) {
-    if (tempEN == null) {
-      return newName + PCStockGralConstants.SPACE + episode + fileExt;
+      String tempEn, String episode, String fileExt, String newName) {
+    if (tempEn == null) {
+      return newName + PcStockGeneralConstants.SPACE + episode + fileExt;
     } else {
-      if (PCStockGralConstants.EMPTY.equals(episode)) {
-        return newName + tempEN + fileExt;
+      if (PcStockGeneralConstants.EMPTY.equals(episode)) {
+        return newName + tempEn + fileExt;
       } else {
-        return newName + tempEN + PCStockGralConstants.SPACE + episode + fileExt;
+        return newName + tempEn + PcStockGeneralConstants.SPACE + episode + fileExt;
       }
     }
   }
@@ -113,17 +114,17 @@ public final class RenameUtil {
         String currentName = file.getName();
         String episode =
             extractFileName(currentName)
-                .replaceAll(PCStockGralConstants.REGEX_NUMBER, PCStockGralConstants.SPACE);
-        episode = episode.replaceAll(PCStockGralConstants.REGEX_SPACE, PCStockGralConstants.SPACE);
-        Set<String> hs = new HashSet<>();
-        hs.addAll(Arrays.asList(episode.split(PCStockGralConstants.SPACE)));
+                .replaceAll(PcStockGeneralConstants.REGEX_NUMBER, PcStockGeneralConstants.SPACE);
+        episode =
+            episode.replaceAll(PcStockGeneralConstants.REGEX_SPACE, PcStockGeneralConstants.SPACE);
+        Set<String> hs = new HashSet<>(Arrays.asList(episode.split(PcStockGeneralConstants.SPACE)));
         numberList.addAll(hs);
         for (String s : numberList) {
           Exclusion e = new Exclusion();
           e.setCode(s);
           e.setFrequency(1L);
           if (tmp.contains(e)) {
-            Integer pos = tmp.indexOf(e);
+            int pos = tmp.indexOf(e);
             tmp.get(pos).setFrequency(tmp.get(pos).getFrequency() + 1);
           } else {
             tmp.add(e);
@@ -131,9 +132,8 @@ public final class RenameUtil {
         }
         numberList.clear();
       }
-      Comparator<Exclusion> excComparador =
-          (Exclusion p1, Exclusion p2) -> p1.getFrequency().compareTo(p2.getFrequency());
-      Collections.sort(tmp, excComparador);
+      Comparator<Exclusion> excComparator = Comparator.comparing(Exclusion::getFrequency);
+      tmp.sort(excComparator);
       int filesSize = files.size();
       return tmp.stream()
           .filter(exclusionDto -> exclusionDto.getFrequency() == filesSize)
@@ -145,11 +145,11 @@ public final class RenameUtil {
   }
 
   private static String extractFileName(String episodeName) {
-    return episodeName.substring(0, episodeName.lastIndexOf(PCStockGralConstants.DOT));
+    return episodeName.substring(0, episodeName.lastIndexOf(PcStockGeneralConstants.DOT));
   }
 
   private static String extractFileExtension(String episodeName) {
     return episodeName.substring(
-        episodeName.lastIndexOf(PCStockGralConstants.DOT), episodeName.length());
+        episodeName.lastIndexOf(PcStockGeneralConstants.DOT), episodeName.length());
   }
 }

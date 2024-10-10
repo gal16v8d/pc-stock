@@ -4,10 +4,12 @@ import com.xuggle.xuggler.ICodec;
 import com.xuggle.xuggler.IContainer;
 import com.xuggle.xuggler.IStream;
 import com.xuggle.xuggler.IStreamCoder;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public final class VideoPropertiesUtil {
 
-  public String getFileResolutionXuggler(String fullPath) {
+  public static String getFileResolutionXuggler(String fullPath) {
     IContainer container = null;
     IStreamCoder videoCoder = null;
     try {

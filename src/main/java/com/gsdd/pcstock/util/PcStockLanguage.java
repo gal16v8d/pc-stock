@@ -2,11 +2,10 @@ package com.gsdd.pcstock.util;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class PCStockLanguage {
+@UtilityClass
+public final class PcStockLanguage {
 
   private static final String BUNDLE_RESOURCE = "msg/messages";
   public static final String MAIN_DIR_BTN_TXT = "main.directory.button.text";

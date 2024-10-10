@@ -1,5 +1,6 @@
 package com.gsdd.pcstock.model;
 
+import java.io.Serial;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,8 +12,8 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 @ToString
-public class GralFile extends PCStockFile {
+public class GeneralFile extends PcStockFile {
 
-  private static final long serialVersionUID = 1103464076140700986L;
+  @Serial private static final long serialVersionUID = 1103464076140700986L;
   private Long quantity;
 }

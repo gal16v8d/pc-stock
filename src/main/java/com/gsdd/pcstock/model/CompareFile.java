@@ -1,5 +1,6 @@
 package com.gsdd.pcstock.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Generated;
@@ -16,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class CompareFile implements Serializable, Comparable<CompareFile> {
 
-  private static final long serialVersionUID = 9034112094903638768L;
+  @Serial private static final long serialVersionUID = 9034112094903638768L;
   private String name;
   private Long onMain;
   private Long onSecondary;
