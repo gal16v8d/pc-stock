@@ -13,5 +13,4 @@ public final class PcStockGeneralConstants {
   public static final String REGEX_SPACE = " +";
   public static final String ROOT_DIR = ".";
   public static final String SPACE = " ";
-  public static final Integer THREAD_POOL_MAX = 25;
 }

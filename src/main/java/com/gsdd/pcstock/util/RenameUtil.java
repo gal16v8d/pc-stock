@@ -84,7 +84,7 @@ public final class RenameUtil {
    * @param tempEn specific part of the name to be appended.
    * @param episode number of episode.
    * @param fileExt extension for file.
-   * @param newName new preffix for file.
+   * @param newName new prefix for file.
    * @return new name for the file.
    */
   public static String getRenameValue(
@@ -149,7 +149,6 @@ public final class RenameUtil {
   }
 
   private static String extractFileExtension(String episodeName) {
-    return episodeName.substring(
-        episodeName.lastIndexOf(PcStockGeneralConstants.DOT), episodeName.length());
+    return episodeName.substring(episodeName.lastIndexOf(PcStockGeneralConstants.DOT));
   }
 }
