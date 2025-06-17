@@ -34,8 +34,7 @@ public final class RenameUtil {
       Collection<File> files = FileUtils.listFiles(dir, filters, true);
       List<Exclusion> exclusions = getExclusion(files);
       String newFullName = dir + File.separator + newName.trim();
-      files.parallelStream()
-          .forEach(
+      files.forEach(
               (File file) -> {
                 String currentName = file.getName();
                 String tempEN = NameExclusionEnum.findByName(currentName);

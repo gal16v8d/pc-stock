@@ -107,13 +107,13 @@ public final class PcStockView extends JFrame {
 
     mainDirectoryButton.setText(
         PcStockLanguage.getMessageByLocale(PcStockLanguage.MAIN_DIR_BTN_TXT));
-    mainDirectoryButton.addActionListener(this::botonPrincipalActionPerformed);
+    mainDirectoryButton.addActionListener(this::mainDirectoryAction);
     getContentPane().add(mainDirectoryButton);
     mainDirectoryButton.setBounds(200, 90, 160, 23);
 
     secondaryDirectoryButton.setText(
         PcStockLanguage.getMessageByLocale(PcStockLanguage.SEC_DIR_BTN_TXT));
-    secondaryDirectoryButton.addActionListener(this::botonSecundarioActionPerformed);
+    secondaryDirectoryButton.addActionListener(this::secondaryDirectoryAction);
     getContentPane().add(secondaryDirectoryButton);
     secondaryDirectoryButton.setBounds(200, 120, 160, 23);
 
@@ -168,17 +168,17 @@ public final class PcStockView extends JFrame {
     resolution.setBounds(20, 150, 140, 23);
 
     seeButton.setText(PcStockLanguage.getMessageByLocale(PcStockLanguage.SEE_BTN_TXT));
-    seeButton.addActionListener(this::botonVerActionPerformed);
+    seeButton.addActionListener(this::executeSeeAction);
     getContentPane().add(seeButton);
     seeButton.setBounds(20, 180, 160, 20);
 
     compareButton.setText(PcStockLanguage.getMessageByLocale(PcStockLanguage.COMPARE_BTN_TXT));
-    compareButton.addActionListener(this::botonCompararActionPerformed);
+    compareButton.addActionListener(this::executeCompareAction);
     getContentPane().add(compareButton);
     compareButton.setBounds(20, 180, 160, 20);
 
     renameButton.setText(PcStockLanguage.getMessageByLocale(PcStockLanguage.RENAME_BTN_TXT));
-    renameButton.addActionListener(this::botonRenombrarActionPerformed);
+    renameButton.addActionListener(this::executeRenameAction);
     getContentPane().add(renameButton);
     renameButton.setBounds(20, 180, 160, 20);
 
@@ -250,12 +250,12 @@ public final class PcStockView extends JFrame {
     return menuItem;
   }
 
-  private void botonPrincipalActionPerformed(ActionEvent evt) {
+  private void mainDirectoryAction(ActionEvent evt) {
     controller.mainDirectoryAction(
         PcStockLanguage.getMessageByLocale(PcStockLanguage.SELECT_MAIN_DIR_TXT));
   }
 
-  private void botonSecundarioActionPerformed(ActionEvent evt) {
+  private void secondaryDirectoryAction(ActionEvent evt) {
     controller.secondaryDirectoryAction(
         PcStockLanguage.getMessageByLocale(PcStockLanguage.SELECT_SEC_DIR_TXT));
   }
@@ -272,15 +272,15 @@ public final class PcStockView extends JFrame {
     controller.setUpSeeView();
   }
 
-  private void botonCompararActionPerformed(ActionEvent evt) {
+  private void executeCompareAction(ActionEvent evt) {
     controller.executeCompareAction();
   }
 
-  private void botonRenombrarActionPerformed(ActionEvent evt) {
+  private void executeRenameAction(ActionEvent evt) {
     controller.executeRenameAction();
   }
 
-  private void botonVerActionPerformed(ActionEvent evt) {
+  private void executeSeeAction(ActionEvent evt) {
     controller.executeSeeAction();
   }
 

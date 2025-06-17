@@ -18,14 +18,4 @@ public final class TableModelConstants {
   public static final String QUANTITY = PcStockLanguage.getMessageByLocale("tbl.quantity.column");
   public static final String SIZE = PcStockLanguage.getMessageByLocale("tbl.size.column");
   public static final String RES = PcStockLanguage.getMessageByLocale("tbl.res.column");
-  static final String[] COMPARE_TABLE_TITLES = {
-    TableModelConstants.NAME,
-    TableModelConstants.C_MAIN,
-    TableModelConstants.C_SND,
-    TableModelConstants.C_DIF
-  };
-
-  public static String[] getCompareTableTitles() {
-    return COMPARE_TABLE_TITLES;
-  }
 }

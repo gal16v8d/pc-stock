@@ -215,6 +215,7 @@ public class PcStockController {
   }
 
   public void executeSeeAction() {
+    log.debug("Init see action");
     getCheckedFilters();
     mainDirectoryAction(PcStockLanguage.getMessageByLocale(PcStockLanguage.SELECT_MAIN_DIR_TXT));
     if (view.getDetailCheck().isSelected()) {
@@ -222,9 +223,11 @@ public class PcStockController {
     } else {
       seeWithoutDetails();
     }
+    log.debug("Finish see action");
   }
 
   private void seeWithDetails() {
+    log.debug("Init see detailed action");
     changeTableModel(TableModelConstants.DETAILED_SEE);
     detailedFileHelper.setWithResolution(view.getResolution().isSelected());
     List<DetailedFile> searchList =
@@ -244,9 +247,11 @@ public class PcStockController {
       log.debug(ADDING_LOG, dto);
       pos++;
     }
+    log.debug("Finish see detailed action");
   }
 
   private void seeWithoutDetails() {
+    log.debug("Init see (no details) action");
     changeTableModel(TableModelConstants.SEE);
     List<GeneralFile> searchList =
         generalFileHelper.getFileList(arrayFilter, directories.getMain());
@@ -260,6 +265,7 @@ public class PcStockController {
       log.debug(ADDING_LOG, dto);
       pos++;
     }
+    log.debug("Finish see (no details) action");
   }
 
   private void getCheckedFilters() {
@@ -269,15 +275,18 @@ public class PcStockController {
   }
 
   public void executeCompareAction() {
+    log.debug("Init compare action");
     getCheckedFilters();
     if (view.getDetailCheck().isSelected()) {
       compareWithDetail();
     } else {
       compareWithoutDetail();
     }
+    log.debug("Finish compare action");
   }
 
   private void compareWithDetail() {
+    log.debug("Init compare detailed action");
     changeTableModel(TableModelConstants.COMPARE);
     List<CompareFile> searchList =
         detailedFileHelper.getCompareFileList(
@@ -287,18 +296,20 @@ public class PcStockController {
     int pos = 0;
     for (CompareFile dto : searchList) {
       model.addRow(new Object[1]);
-      String ppal = ByteConverter.readableFileSize(dto.getOnMain());
+      String main = ByteConverter.readableFileSize(dto.getOnMain());
       String snd = ByteConverter.readableFileSize(dto.getOnSecondary());
       view.getDataTable().getModel().setValueAt(dto.getName(), pos, 0);
-      view.getDataTable().getModel().setValueAt(ppal, pos, 1);
+      view.getDataTable().getModel().setValueAt(main, pos, 1);
       view.getDataTable().getModel().setValueAt(snd, pos, 2);
       view.getDataTable().getModel().setValueAt(dto.getDifferent(), pos, 3);
       log.debug(ADDING_LOG, dto);
       pos++;
     }
+    log.debug("Finish compare detailed action");
   }
 
   private void compareWithoutDetail() {
+    log.debug("Init compare (no details) action");
     changeTableModel(TableModelConstants.COMPARE);
     List<CompareFile> searchList =
         generalFileHelper.getCompareFileList(
@@ -315,6 +326,7 @@ public class PcStockController {
       log.debug(ADDING_LOG, dto);
       pos++;
     }
+    log.debug("Finish compare (no details) action");
   }
 
   private void clearTable(DefaultTableModel model) {
@@ -326,6 +338,7 @@ public class PcStockController {
   }
 
   public void executeRenameAction() {
+    log.debug("Init rename action");
     getCheckedFilters();
     mainDirectoryAction(PcStockLanguage.getMessageByLocale(PcStockLanguage.RENAME_SELECT_DIR_TXT));
     String str =
@@ -346,5 +359,6 @@ public class PcStockController {
           PcStockGeneralConstants.ERROR,
           JOptionPane.ERROR_MESSAGE);
     }
+    log.debug("Finish rename action");
   }
 }
