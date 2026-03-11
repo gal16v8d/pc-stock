@@ -7,7 +7,6 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public final class PcStockLanguage {
 
-  private static final String BUNDLE_RESOURCE = "msg/messages";
   public static final String MAIN_DIR_BTN_TXT = "main.directory.button.text";
   public static final String SEC_DIR_BTN_TXT = "sec.directory.button.text";
   public static final String COMPARE_BTN_TXT = "compare.button.text";
@@ -33,6 +32,7 @@ public final class PcStockLanguage {
   public static final String ADD_FILTERS_ERR_TXT = "add.filters.err.text";
   public static final String RENAME_SUCCESS_TXT = "rename.success.text";
   public static final String RENAME_FAIL_TXT = "rename.fail.text";
+  private static final String BUNDLE_RESOURCE = "msg/messages";
 
   private static ResourceBundle bundle;
 
